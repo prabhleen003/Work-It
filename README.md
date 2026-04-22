@@ -1,249 +1,375 @@
-# WorkIt
+<div align="center">
 
-WorkIt is a React + React Flow prototype for visually designing, validating, and testing internal HR workflows such as offer approvals, leave approval, and document verification.
+<br/>
 
-This project was built to satisfy the Tredence Analytics Full Stack Engineering Intern case study. The emphasis is on architecture, correctness, configurability, and a working sandbox rather than backend persistence or authentication.
-
-## What This Prototype Delivers
-
-- Drag-and-drop workflow canvas powered by React Flow
-- Five workflow node types:
-  - Start Node
-  - Task Node
-  - Approval Node
-  - Automated Step Node
-  - End Node
-- Node-specific editing forms with controlled state
-- Dynamic automation parameter forms driven by a mock API
-- Real-time workflow validation
-- Workflow serialization and step-by-step simulation
-- In-memory endpoint-style mock API for `GET /automations` and `POST /simulate`
-- Unit tests for workflow validation and simulation behavior
-
-## Tech Stack
-
-- React 18
-- TypeScript
-- React Flow
-- Vite
-- Tailwind CSS
-- Lucide React
-- Vitest
-
-## Quick Start
-
-```bash
-npm install
-npm run dev
+```
+██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗██╗████████╗
+██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██║╚══██╔══╝
+██║ █╗ ██║██║   ██║██████╔╝█████╔╝ ██║   ██║   
+██║███╗██║██║   ██║██╔══██╗██╔═██╗ ██║   ██║   
+╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗██║   ██║   
+ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝   
 ```
 
-Open the local Vite URL shown in the terminal.
+### *Visual HR Workflow Designer · Validator · Sandbox*
 
-## Available Scripts
+<br/>
 
-```bash
-npm run dev
-npm run build
-npm run lint
-npm test
-npm run typecheck
-npm run preview
-```
+![React](https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![React Flow](https://img.shields.io/badge/React_Flow-FF0072?style=for-the-badge&logo=react&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
 
-## Product Walkthrough
+<br/>
 
-### 1. Build a workflow
+> **Drag. Connect. Validate. Simulate.**  
+> A full-featured canvas for designing internal HR workflows — onboarding, leave approvals, document verification — with real-time validation and a step-by-step execution sandbox.
 
-- Drag nodes from the left sidebar onto the canvas
-- Connect nodes to define execution order
-- Click any node to edit its configuration in the right-side panel
-- Delete nodes or edges with `Delete` or `Backspace`
+<br/>
 
-### 2. Configure nodes
+</div>
 
-Every node type has its own form:
+---
 
-- Start Node: title and metadata key-value pairs
-- Task Node: title, description, assignee, due date, custom fields
-- Approval Node: title, approver role, auto-approve threshold, branching mode
-- Automated Step Node: title, action, action parameters based on selected automation
-- End Node: end message and summary flag
+## ✦ What It Does
 
-When an Approval Node has an auto-approve threshold greater than `0`, the sandbox simulation treats it as auto-approved and follows the approved path. A threshold of `0` keeps manual/mock decision behavior.
+WorkIt is a React prototype for **visually composing HR workflows** as directed graphs. It combines an interactive canvas, intelligent validation, and a mock simulation engine into a single, cohesive experience — with zero backend required.
 
-### 3. Validate and test
-
-- Validation runs automatically as the workflow changes
-- The `Validate` button opens the validation view explicitly
-- The `Test Workflow` button serializes the graph and sends it to the mock simulation API
-- The sandbox shows workflow JSON, validation feedback, and execution logs
-- API interactions are wrapped with error handling so failed mock requests produce safe UI states
-
-## Workflow Diagram
+<br/>
 
 ```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#1a1a2e',
+    'primaryTextColor': '#e0e0ff',
+    'primaryBorderColor': '#7c3aed',
+    'lineColor': '#7c3aed',
+    'secondaryColor': '#16213e',
+    'tertiaryColor': '#0f3460',
+    'background': '#0a0a1a',
+    'mainBkg': '#1a1a2e',
+    'nodeBorder': '#7c3aed',
+    'clusterBkg': '#16213e',
+    'titleColor': '#e0e0ff',
+    'edgeLabelBackground': '#16213e',
+    'fontFamily': 'monospace'
+  }
+}}%%
 flowchart LR
-    A[Sidebar Node Palette] --> B[React Flow Canvas]
-    B --> C[Select Node]
-    C --> D[Node Details Panel]
-    D --> E[Update Node Data]
+    S(["▶ START"]):::start --> T["📋 Collect Documents"]:::task
+    T --> A{"👔 Manager\nApproval"}:::approval
+    A -->|"✅ Approved"| M["📧 Send Welcome Email"]:::auto
+    A -->|"❌ Rejected"| R["🔄 Rework Documents"]:::task
+    M --> E(["⏹ END"]):::finish
+    R --> E
+
+    classDef start fill:#7c3aed,stroke:#a78bfa,color:#fff,rx:20
+    classDef finish fill:#0f3460,stroke:#60a5fa,color:#fff,rx:20
+    classDef task fill:#1e3a5f,stroke:#38bdf8,color:#e0e0ff
+    classDef approval fill:#2d1b4e,stroke:#a78bfa,color:#e0e0ff
+    classDef auto fill:#0d3d2e,stroke:#34d399,color:#e0e0ff
+```
+
+<br/>
+
+---
+
+## ✦ Node Types
+
+| Node | Icon | Purpose |
+|------|------|---------|
+| **Start** | `▶` | Entry point — title & metadata key-values |
+| **Task** | `📋` | Human task — assignee, due date, custom fields |
+| **Approval** | `👔` | Decision gate — approver role, auto-approve threshold, branching |
+| **Automated Step** | `⚡` | System action — driven by mock automation API |
+| **End** | `⏹` | Terminal node — summary message & flag |
+
+<br/>
+
+---
+
+## ✦ Architecture
+
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#0f172a',
+    'primaryTextColor': '#f1f5f9',
+    'primaryBorderColor': '#6366f1',
+    'lineColor': '#818cf8',
+    'secondaryColor': '#1e293b',
+    'tertiaryColor': '#0f172a',
+    'mainBkg': '#1e293b',
+    'nodeBorder': '#6366f1',
+    'clusterBkg': '#1e293b',
+    'titleColor': '#c7d2fe',
+    'edgeLabelBackground': '#0f172a',
+    'fontFamily': 'monospace',
+    'fontSize': '13px'
+  }
+}}%%
+flowchart TD
+    App["⚙️  App.tsx\nState Orchestration"]:::core
+
+    App --> Canvas["🖼  WorkflowCanvas"]:::ui
+    App --> Details["🔧  NodeDetailsPanel"]:::ui
+    App --> Sandbox["🧪  SandboxPanel"]:::ui
+
+    Canvas --> Nodes["🔷  Custom Node\nComponents"]:::component
+    Details --> Types["📐  workflow.ts\nType System"]:::lib
+    Sandbox --> Serial["📦  serialization.ts"]:::lib
+
+    App --> Valid["✅  validation.ts"]:::lib
+    App --> ApiC["🌐  apiClient.ts"]:::lib
+    ApiC --> Mock["🔮  mockApi.ts"]:::lib
+    Mock --> Sim["⚡  Simulation\nEngine"]:::engine
+
+    Tests["🧪  Vitest\nUnit Tests"]:::test --> Valid
+    Tests --> Sim
+    Sample["📄  sampleWorkflow.ts"]:::data --> App
+
+    classDef core fill:#312e81,stroke:#818cf8,color:#e0e7ff
+    classDef ui fill:#1e3a5f,stroke:#38bdf8,color:#e0f2fe
+    classDef component fill:#164e63,stroke:#22d3ee,color:#e0f2fe
+    classDef lib fill:#1a2e1a,stroke:#4ade80,color:#dcfce7
+    classDef engine fill:#2d1b4e,stroke:#c084fc,color:#f3e8ff
+    classDef test fill:#431407,stroke:#fb923c,color:#ffedd5
+    classDef data fill:#1c1917,stroke:#a8a29e,color:#f5f5f4
+```
+
+<br/>
+
+---
+
+## ✦ Data Flow
+
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#0c1a0c',
+    'primaryTextColor': '#d1fae5',
+    'primaryBorderColor': '#10b981',
+    'lineColor': '#34d399',
+    'secondaryColor': '#052e16',
+    'mainBkg': '#0c1a0c',
+    'nodeBorder': '#10b981',
+    'clusterBkg': '#052e16',
+    'titleColor': '#6ee7b7',
+    'edgeLabelBackground': '#052e16',
+    'fontFamily': 'monospace'
+  }
+}}%%
+flowchart LR
+    A["🎨 Sidebar\nNode Palette"]:::step --> B["🖼 React Flow\nCanvas"]:::canvas
+    B --> C["🖱 Select\nNode"]:::step
+    C --> D["🔧 Node Details\nPanel"]:::panel
+    D --> E["✏️ Update\nNode Data"]:::step
     E --> B
 
-    B --> F[Auto Validation]
-    F --> G[Sandbox Validation View]
+    B --> F["⚡ Auto\nValidation"]:::validator
+    F --> G["📋 Sandbox\nValidation View"]:::panel
 
-    B --> H[Serialize Workflow]
-    H --> I[POST /simulate]
-    I --> J[Execution Log]
+    B --> H["📦 Serialize\nWorkflow"]:::step
+    H --> I["🌐 POST\n/simulate"]:::api
+    I --> J["📊 Execution\nLog"]:::panel
+
+    classDef step fill:#064e3b,stroke:#34d399,color:#d1fae5
+    classDef canvas fill:#065f46,stroke:#10b981,color:#d1fae5
+    classDef panel fill:#022c22,stroke:#059669,color:#d1fae5
+    classDef validator fill:#1a2e1a,stroke:#4ade80,color:#bbf7d0
+    classDef api fill:#0c2340,stroke:#38bdf8,color:#bae6fd
 ```
 
-## Example Execution Flow
+<br/>
 
-```mermaid
-flowchart LR
-    S([Start]) --> T[Draft Offer Package]
-    T --> A{Compensation Approval}
-    A -->|Approved| M[Generate Offer Letter]
-    A -->|Rejected| R[Revise Compensation Package]
-    M --> E([End])
-    R --> E
+---
+
+## ✦ Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-## Architecture
+Open the Vite local URL shown in your terminal.
 
-```mermaid
-flowchart TD
-    App[App.tsx\nState Orchestration] --> Canvas[WorkflowCanvas]
-    App --> Details[NodeDetailsPanel]
-    App --> Sandbox[SandboxPanel]
+<br/>
 
-    Canvas --> Nodes[Custom Node Components]
-    Details --> Types[workflow.ts]
-    Sandbox --> Serialization[serialization.ts]
+### All Scripts
 
-    App --> Validation[validation.ts]
-    App --> ApiClient[apiClient.ts]
-    ApiClient --> MockApi[mockApi.ts]
-    MockApi --> Simulation[Simulation Engine]
-    Tests[Vitest Unit Tests] --> Validation
-    Tests --> Simulation
-
-    Sample[sampleWorkflow.ts] --> App
+```bash
+npm run dev        # → start dev server with HMR
+npm run build      # → production build → dist/
+npm run preview    # → preview production build locally
+npm run lint       # → ESLint
+npm run typecheck  # → tsc --noEmit
+npm test           # → Vitest unit tests
 ```
 
-## Folder Structure
+<br/>
 
-```text
+---
+
+## ✦ Folder Structure
+
+```
 src/
-  components/
-    canvas/
-    layout/
-    nodes/
-    panels/
-  data/
-    sampleWorkflow.ts
-  lib/
-    apiClient.ts
-    mockApi.test.ts
-    mockApi.ts
-    serialization.ts
-    validation.test.ts
-    validation.ts
-  types/
-    workflow.ts
-  App.tsx
-  main.tsx
+├── components/
+│   ├── canvas/          ← React Flow canvas + edge config
+│   ├── layout/          ← Shell, sidebar, toolbar
+│   ├── nodes/           ← Custom node renderers (5 types)
+│   └── panels/          ← NodeDetailsPanel + SandboxPanel
+├── data/
+│   └── sampleWorkflow.ts
+├── lib/
+│   ├── apiClient.ts     ← Typed fetch wrapper
+│   ├── mockApi.ts       ← In-memory GET /automations + POST /simulate
+│   ├── mockApi.test.ts
+│   ├── serialization.ts ← Graph → wire format
+│   ├── validation.ts    ← DAG rules + field checks
+│   └── validation.test.ts
+├── types/
+│   └── workflow.ts      ← All node/edge interfaces
+├── App.tsx              ← State orchestration root
+└── main.tsx
 ```
 
-## Core Design Choices
+<br/>
 
-### Typed node data model
+---
 
-Each node type has a dedicated TypeScript interface, which keeps forms, validation, and rendering aligned.
+## ✦ Core Design Choices
 
-### Separation of responsibilities
+**Typed node data model** — Each node type carries a dedicated TypeScript interface. Forms, validation, and rendering all derive from the same source of truth.
 
-- Canvas logic lives in `components/canvas`
-- Node rendering lives in `components/nodes`
-- Editing and sandbox UX live in `components/panels`
-- Validation, serialization, and mock API behavior live in `lib`
+**Separation of concerns** — Canvas logic, node rendering, editing UX, and business logic live in distinct layers with no cross-cutting dependencies.
 
-### Endpoint-shaped mock API
+**Endpoint-shaped mock API** — The app speaks to a lightweight API client with `GET /automations` and `POST /simulate`, keeping the mock layer close to a real backend contract.
 
-The app talks to a lightweight API client with:
+**Safety-first validation** — The validator checks start/end presence, directionality, disconnected nodes, missing required fields, approval branch completeness, and cycle detection.
 
-- `GET /automations`
-- `POST /simulate`
+**Auto-approve threshold** — Approval nodes with a threshold `> 0` are fast-pathed as approved during simulation. A threshold of `0` uses mock decision behavior.
 
-This keeps the mock layer close to a real backend contract while staying fully in-memory.
+<br/>
 
-Async API calls are wrapped with `try`/`catch`/`finally` in the app orchestration layer. Simulation failures are surfaced as failed sandbox results, and loading state is always cleared.
+---
 
-### Safety-first validation
+## ✦ Validation Rules
 
-The validator checks:
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#1a0a2e',
+    'primaryTextColor': '#ede9fe',
+    'primaryBorderColor': '#8b5cf6',
+    'lineColor': '#a78bfa',
+    'secondaryColor': '#2e1065',
+    'mainBkg': '#1a0a2e',
+    'nodeBorder': '#8b5cf6',
+    'clusterBkg': '#2e1065',
+    'titleColor': '#c4b5fd',
+    'edgeLabelBackground': '#1a0a2e',
+    'fontFamily': 'monospace'
+  }
+}}%%
+flowchart TD
+    V["🛡️ Validator"]:::root
 
-- Start node presence and uniqueness
-- End node presence
-- Start node directionality
-- End node termination
-- Disconnected nodes
-- Missing required fields
-- Approval branching completeness
-- Cycles in the graph
+    V --> R1["✅ Single Start Node\npresent & unique"]:::rule
+    V --> R2["✅ End Node\npresent"]:::rule
+    V --> R3["✅ Start has no\nincoming edges"]:::rule
+    V --> R4["✅ End has no\noutgoing edges"]:::rule
+    V --> R5["✅ No disconnected\nnodes"]:::rule
+    V --> R6["✅ Required fields\nfilled on all nodes"]:::rule
+    V --> R7["✅ Approval nodes have\nboth branch edges"]:::rule
+    V --> R8["✅ No cycles\nin the graph"]:::rule
 
-### Unit-tested workflow logic
+    classDef root fill:#4c1d95,stroke:#a78bfa,color:#ede9fe
+    classDef rule fill:#1e1b4b,stroke:#6366f1,color:#e0e7ff
+```
 
-The core workflow logic has Vitest coverage for:
+<br/>
 
-- valid sample workflow validation
-- missing approval branch detection
-- missing required task fields
-- cycle detection
-- auto-approved simulation path
-- missing Start node simulation failure
+---
 
-Run the tests with:
+## ✦ Unit Test Coverage
+
+| Test Case | File |
+|-----------|------|
+| Valid sample workflow passes | `validation.test.ts` |
+| Missing approval branch detected | `validation.test.ts` |
+| Missing required task fields flagged | `validation.test.ts` |
+| Cycle detection triggers | `validation.test.ts` |
+| Auto-approved simulation path | `mockApi.test.ts` |
+| Missing Start node simulation failure | `mockApi.test.ts` |
 
 ```bash
 npm test
 ```
 
-## Requirement Coverage
+<br/>
 
-The implementation covers the main case-study requirements:
+---
 
-- React application: yes
-- React Flow canvas: yes
-- Multiple custom nodes: yes
-- Configurable node forms: yes
-- Mock API integration: yes
-- Workflow test/sandbox panel: yes
-- Unit tests for workflow logic: yes
-- README and architecture explanation: yes
+## ✦ Mock API Contract
 
-For a more detailed requirement-by-requirement mapping, see [DOCUMENTATION.md](./DOCUMENTATION.md).
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/automations` | `GET` | Returns available automation action definitions |
+| `/simulate` | `POST` | Accepts serialized workflow, returns execution log |
 
-## Assumptions and Scope
+All async calls are wrapped with `try` / `catch` / `finally`. Simulation failures surface as failed sandbox results; loading state is always cleared.
 
-- No authentication is included, per the case-study brief
-- No backend persistence is included; workflows are held in client state
-- Simulation is deterministic in structure but mocked in execution behavior
-- Automation actions are mocked in memory
-- Production build output is generated into `dist/` and ignored by Git because it can be recreated with `npm run build`
-- Current dependency audit is clean after updating development tooling
+<br/>
 
-## Future Improvements
+---
 
-- Persist workflows locally or through a backend
-- Add undo/redo history
-- Add import/export for workflow JSON
-- Add richer branch conditions beyond approval outcomes
-- Expand tests to include component interaction and accessibility cases
-- Introduce custom hooks for workflow orchestration as the app grows
+## ✦ Assumptions & Scope
 
-## Submission Notes
+- **No authentication** — per the case-study brief
+- **No backend persistence** — workflows live in client state only
+- **Deterministic structure, mocked execution** — simulation follows graph topology faithfully
+- **`dist/` excluded from Git** — reproducible via `npm run build`
 
-This prototype is optimized for clarity, modularity, and demonstrable functionality within the time-boxed nature of the case study.
+<br/>
 
-If you are reviewing this for the Tredence assignment, the best companion document is [DOCUMENTATION.md](./DOCUMENTATION.md), which maps the implementation directly to the case-study requirements.
+---
+
+## ✦ Roadmap
+
+- [ ] Local / backend workflow persistence
+- [ ] Undo / redo history stack
+- [ ] Workflow JSON import & export
+- [ ] Richer branch conditions beyond approval outcomes
+- [ ] Component interaction & accessibility test coverage
+- [ ] Custom hooks for workflow orchestration
+
+<br/>
+
+---
+
+<div align="center">
+
+<br/>
+
+*Built with precision for the Tredence Analytics Full Stack Engineering Intern case study.*  
+*Companion doc: [`DOCUMENTATION.md`](./DOCUMENTATION.md) — requirement-by-requirement implementation mapping.*
+
+<br/>
+
+![Built with React](https://img.shields.io/badge/Built_with-React_Flow-FF0072?style=flat-square&logo=react)
+![Tests](https://img.shields.io/badge/Tests-Vitest-6E9F18?style=flat-square)
+![Zero Backend](https://img.shields.io/badge/Backend-None_Required-gray?style=flat-square)
+
+<br/>
+
+</div>

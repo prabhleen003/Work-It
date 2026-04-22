@@ -31,7 +31,9 @@ describe('validateWorkflow', () => {
     const result = validateWorkflow(cloneNodes(), edges);
 
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('Approval "Manager Approval" is missing a rejected branch.');
+    expect(result.errors).toContain(
+      'Approval "Compensation Approval" is missing a rejected branch.'
+    );
   });
 
   it('rejects workflows with missing required task fields', () => {
@@ -44,7 +46,7 @@ describe('validateWorkflow', () => {
     const result = validateWorkflow(nodes, cloneEdges());
 
     expect(result.valid).toBe(false);
-    expect(result.errors).toContain('Task "Collect Documents" is missing an assignee.');
+    expect(result.errors).toContain('Task "Draft Offer Package" is missing an assignee.');
   });
 
   it('rejects cycles in the workflow graph', () => {

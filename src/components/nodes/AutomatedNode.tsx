@@ -17,34 +17,36 @@ function AutomatedNode({ data, selected }: Props) {
 
   return (
     <div
-      className={`bg-white rounded-xl border-2 min-w-[180px] shadow-md transition-all ${
-        selected ? 'border-teal-500 shadow-teal-200 shadow-lg' : 'border-teal-400'
+      className={`min-w-[190px] overflow-hidden rounded-lg border bg-white shadow-[0_6px_18px_rgba(15,23,42,0.06)] transition-all ${
+        selected
+          ? 'border-teal-300 ring-1 ring-teal-200 shadow-[0_10px_24px_rgba(15,23,42,0.08)]'
+          : 'border-teal-200'
       }`}
     >
       <Handle
         type="target"
         position={Position.Left}
-        className="!w-3 !h-3 !bg-teal-400 !border-2 !border-white"
+        className="!h-3 !w-3 !border-2 !border-white !bg-teal-500"
       />
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-teal-100">
-        <div className="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0">
-          <Zap size={11} className="text-white fill-white" />
+      <div className="flex items-center gap-2 border-b border-teal-100 bg-teal-50 px-3 py-2">
+        <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md border border-teal-100 bg-white">
+          <Zap size={11} className="fill-teal-700 text-teal-700" />
         </div>
-        <span className="text-xs font-semibold text-teal-600 uppercase tracking-wide">Automated Step</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">Automated Step</span>
       </div>
       <div className="px-3 py-2 space-y-1">
-        <p className="text-sm font-medium text-gray-800 leading-tight">{data.title || 'Automated Action'}</p>
+        <p className="text-sm font-medium leading-tight text-slate-800">{data.title || 'Automated Action'}</p>
         {data.actionId && (
-          <p className="text-xs text-gray-500">Action: {data.actionId}</p>
+          <p className="text-xs text-slate-500">Action: {data.actionId}</p>
         )}
         {paramCount > 0 && (
-          <p className="text-xs text-gray-400">Params: {paramCount}</p>
+          <p className="text-xs text-slate-400">Params: {paramCount}</p>
         )}
       </div>
       <Handle
         type="source"
         position={Position.Right}
-        className="!w-3 !h-3 !bg-teal-400 !border-2 !border-white"
+        className="!h-3 !w-3 !border-2 !border-white !bg-teal-500"
       />
     </div>
   );

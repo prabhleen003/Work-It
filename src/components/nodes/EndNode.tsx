@@ -14,27 +14,29 @@ interface Props {
 function EndNode({ data, selected }: Props) {
   return (
     <div
-      className={`bg-white rounded-xl border-2 min-w-[160px] shadow-md transition-all ${
-        selected ? 'border-red-500 shadow-red-200 shadow-lg' : 'border-red-400'
+      className={`min-w-[168px] overflow-hidden rounded-lg border bg-white shadow-[0_6px_18px_rgba(15,23,42,0.06)] transition-all ${
+        selected
+          ? 'border-rose-300 ring-1 ring-rose-200 shadow-[0_10px_24px_rgba(15,23,42,0.08)]'
+          : 'border-rose-200'
       }`}
     >
       <Handle
         type="target"
         position={Position.Left}
-        className="!w-3 !h-3 !bg-red-400 !border-2 !border-white"
+        className="!h-3 !w-3 !border-2 !border-white !bg-rose-500"
       />
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-red-100">
-        <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
-          <StopCircle size={11} className="text-white" />
+      <div className="flex items-center gap-2 border-b border-rose-100 bg-rose-50 px-3 py-2">
+        <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md border border-rose-100 bg-white">
+          <StopCircle size={11} className="text-rose-700" />
         </div>
-        <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">End</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-rose-700">End</span>
       </div>
       <div className="px-3 py-2 space-y-1">
         <p className="text-sm font-medium text-gray-800 leading-tight">
           {data.endMessage || 'Workflow Complete'}
         </p>
         {data.summaryFlag && (
-          <p className="text-xs text-gray-500">Summary: Yes</p>
+          <p className="text-xs text-slate-500">Summary: Yes</p>
         )}
       </div>
     </div>

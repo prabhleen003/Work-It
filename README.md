@@ -1,6 +1,6 @@
 # WorkIt
 
-WorkIt is a React + React Flow prototype for visually designing, validating, and testing internal HR workflows such as onboarding, leave approval, and document verification.
+WorkIt is a React + React Flow prototype for visually designing, validating, and testing internal HR workflows such as offer approvals, leave approval, and document verification.
 
 This project was built to satisfy the Tredence Analytics Full Stack Engineering Intern case study. The emphasis is on architecture, correctness, configurability, and a working sandbox rather than backend persistence or authentication.
 
@@ -101,10 +101,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    S([Start]) --> T[Collect Documents]
-    T --> A{Manager Approval}
-    A -->|Approved| M[Send Welcome Email]
-    A -->|Rejected| R[Rework Documents]
+    S([Start]) --> T[Draft Offer Package]
+    T --> A{Compensation Approval}
+    A -->|Approved| M[Generate Offer Letter]
+    A -->|Rejected| R[Revise Compensation Package]
     M --> E([End])
     R --> E
 ```

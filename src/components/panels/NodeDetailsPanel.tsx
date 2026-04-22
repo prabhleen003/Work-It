@@ -17,11 +17,11 @@ interface Props {
 
 // Metadata for node type display (icon, label, color coding)
 const KIND_META = {
-  start:     { label: 'Start Node',      icon: <Play size={14} className="fill-green-600 text-green-600" />,  color: 'text-green-600' },
-  task:      { label: 'Task Node',        icon: <ClipboardList size={14} className="text-blue-600" />,         color: 'text-blue-600' },
-  approval:  { label: 'Approval Node',    icon: <UserCheck size={14} className="text-amber-600" />,            color: 'text-amber-600' },
-  automated: { label: 'Automated Step',   icon: <Zap size={14} className="fill-teal-600 text-teal-600" />,     color: 'text-teal-600' },
-  end:       { label: 'End Node',         icon: <StopCircle size={14} className="text-red-600" />,             color: 'text-red-600' },
+  start:     { label: 'Start Node', icon: <Play size={14} className="fill-emerald-700 text-emerald-700" />, color: 'text-emerald-700', badge: 'border-emerald-100 bg-emerald-50' },
+  task:      { label: 'Task Node', icon: <ClipboardList size={14} className="text-indigo-700" />, color: 'text-indigo-700', badge: 'border-indigo-100 bg-indigo-50' },
+  approval:  { label: 'Approval Node', icon: <UserCheck size={14} className="text-amber-700" />, color: 'text-amber-700', badge: 'border-amber-100 bg-amber-50' },
+  automated: { label: 'Automated Step', icon: <Zap size={14} className="fill-teal-700 text-teal-700" />, color: 'text-teal-700', badge: 'border-teal-100 bg-teal-50' },
+  end:       { label: 'End Node', icon: <StopCircle size={14} className="text-rose-700" />, color: 'text-rose-700', badge: 'border-rose-100 bg-rose-50' },
 };
 
 function newKV(): KVPair {
@@ -35,16 +35,16 @@ function newKV(): KVPair {
 export default function NodeDetailsPanel({ node, automations, onUpdate, onDelete, onClose }: Props) {
   if (!node) {
     return (
-      <aside className="w-80 bg-white border-l border-gray-200 flex flex-col">
-        <div className="px-4 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700">Node Details</h2>
+      <aside className="flex w-80 flex-col border-l border-slate-200 bg-white">
+        <div className="flex items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-4">
+          <h2 className="text-sm font-semibold text-slate-700">Node Details</h2>
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-6 text-gray-400">
-          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-            <ClipboardList size={22} className="text-gray-300" />
+        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center text-slate-400">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-slate-50">
+            <ClipboardList size={22} className="text-slate-300" />
           </div>
-          <p className="text-sm font-medium text-gray-500 mb-1">No node selected</p>
-          <p className="text-xs text-gray-400">Click any node on the canvas to edit its properties</p>
+          <p className="mb-1 text-sm font-medium text-slate-500">No node selected</p>
+          <p className="text-xs text-slate-400">Click any node on the canvas to edit its properties</p>
         </div>
       </aside>
     );
@@ -53,25 +53,27 @@ export default function NodeDetailsPanel({ node, automations, onUpdate, onDelete
   const meta = KIND_META[node.data.kind];
 
   return (
-    <aside className="w-80 bg-white border-l border-gray-200 flex flex-col overflow-hidden">
-      <div className="px-4 py-3.5 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
+    <aside className="flex w-80 flex-col overflow-hidden border-l border-slate-200 bg-white">
+      <div className="flex flex-shrink-0 items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-3.5">
         <div className="flex items-center gap-2">
-          {meta.icon}
+          <div className={`flex h-8 w-8 items-center justify-center rounded-lg border ${meta.badge}`}>
+            {meta.icon}
+          </div>
           <h2 className={`text-sm font-semibold ${meta.color}`}>{meta.label}</h2>
         </div>
-        <button onClick={onClose} className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600">
+        <button onClick={onClose} className="rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600">
           <X size={15} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
         <NodeForm node={node} automations={automations} onUpdate={onUpdate} />
       </div>
 
-      <div className="px-4 pb-4 flex-shrink-0">
+      <div className="flex-shrink-0 px-4 pb-4">
         <button
           onClick={() => onDelete(node.id)}
-          className="w-full flex items-center justify-center gap-1.5 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-rose-200 py-2 text-sm font-medium text-rose-700 shadow-sm transition-colors hover:bg-rose-50"
         >
           <Trash2 size={14} />
           Delete Node
@@ -107,15 +109,15 @@ function NodeForm({ node, automations, onUpdate }: Omit<Props, 'onClose' | 'onDe
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="space-y-1">
-      <label className="text-xs font-medium text-gray-600">
-        {label} {required && <span className="text-red-500">*</span>}
+      <label className="text-xs font-medium text-slate-600">
+        {label} {required && <span className="text-rose-500">*</span>}
       </label>
       {children}
     </div>
   );
 }
 
-const inputClass = 'w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow text-gray-800';
+const inputClass = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 transition-shadow focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500';
 const textareaClass = `${inputClass} resize-none`;
 
 // ---- Start Form ----
@@ -129,12 +131,12 @@ function StartForm({ data, patch }: { data: StartNodeData; patch: (p: Partial<St
   return (
     <>
       <Field label="Start Title" required>
-        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. New Employee Onboarding" />
+        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. Candidate Offer Approval" />
       </Field>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-gray-600">Metadata</label>
-          <button onClick={addMeta} className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium">
+          <label className="text-xs font-medium text-slate-600">Metadata</label>
+          <button onClick={addMeta} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700">
             <Plus size={11} /> Add
           </button>
         </div>
@@ -142,13 +144,13 @@ function StartForm({ data, patch }: { data: StartNodeData; patch: (p: Partial<St
           <div key={m.id} className="flex gap-1.5 items-center">
             <input className={`${inputClass} flex-1`} value={m.key} onChange={e => updateMeta(m.id, 'key', e.target.value)} placeholder="Key" />
             <input className={`${inputClass} flex-1`} value={m.value} onChange={e => updateMeta(m.id, 'value', e.target.value)} placeholder="Value" />
-            <button onClick={() => removeMeta(m.id)} className="p-1 text-gray-400 hover:text-red-500 flex-shrink-0">
+            <button onClick={() => removeMeta(m.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500">
               <X size={13} />
             </button>
           </div>
         ))}
         {data.metadata.length === 0 && (
-          <p className="text-xs text-gray-400 italic">No metadata fields</p>
+          <p className="text-xs italic text-slate-400">No metadata fields</p>
         )}
       </div>
     </>
@@ -166,7 +168,7 @@ function TaskForm({ data, patch }: { data: TaskNodeData; patch: (p: Partial<Task
   return (
     <>
       <Field label="Title" required>
-        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. Collect Documents" />
+        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. Draft Offer Package" />
       </Field>
       <Field label="Description">
         <textarea className={textareaClass} rows={3} value={data.description} onChange={e => patch({ description: e.target.value })} placeholder="Describe the task..." />
@@ -179,8 +181,8 @@ function TaskForm({ data, patch }: { data: TaskNodeData; patch: (p: Partial<Task
       </Field>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-gray-600">Custom Fields</label>
-          <button onClick={addField} className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium">
+          <label className="text-xs font-medium text-slate-600">Custom Fields</label>
+          <button onClick={addField} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700">
             <Plus size={11} /> Add Field
           </button>
         </div>
@@ -188,7 +190,7 @@ function TaskForm({ data, patch }: { data: TaskNodeData; patch: (p: Partial<Task
           <div key={f.id} className="flex gap-1.5 items-center">
             <input className={`${inputClass} flex-1`} value={f.key} onChange={e => updateField(f.id, 'key', e.target.value)} placeholder="Key" />
             <input className={`${inputClass} flex-1`} value={f.value} onChange={e => updateField(f.id, 'value', e.target.value)} placeholder="Value" />
-            <button onClick={() => removeField(f.id)} className="p-1 text-gray-400 hover:text-red-500 flex-shrink-0">
+            <button onClick={() => removeField(f.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500">
               <X size={13} />
             </button>
           </div>
@@ -209,7 +211,7 @@ function ApprovalForm({ data, patch }: { data: ApprovalNodeData; patch: (p: Part
           className={inputClass}
           value={data.title}
           onChange={e => patch({ title: e.target.value })}
-          placeholder="e.g. Manager Approval"
+          placeholder="e.g. Compensation Approval"
         />
       </Field>
 
@@ -237,7 +239,7 @@ function ApprovalForm({ data, patch }: { data: ApprovalNodeData; patch: (p: Part
           onChange={e => patch({ autoApproveThreshold: Number(e.target.value) })}
           placeholder="0 = disabled"
         />
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="mt-0.5 text-xs text-slate-400">
           Automatically approve after this many pending hours. 0 = disabled.
         </p>
       </Field>
@@ -256,7 +258,7 @@ function ApprovalForm({ data, patch }: { data: ApprovalNodeData; patch: (p: Part
       </Field>
 
       {data.decisionMode === 'approved_rejected' && (
-        <p className="text-xs text-blue-500">
+        <p className="text-xs text-indigo-600">
           This node will create two paths: Approved and Rejected
         </p>
       )}
@@ -282,7 +284,7 @@ function AutomatedForm({ data, automations, patch }: { data: AutomatedNodeData; 
   return (
     <>
       <Field label="Title">
-        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. Send Welcome Email" />
+        <input className={inputClass} value={data.title} onChange={e => patch({ title: e.target.value })} placeholder="e.g. Generate Offer Letter" />
       </Field>
       <Field label="Action">
         <select className={inputClass} value={data.actionId} onChange={e => handleActionChange(e.target.value)}>
@@ -292,10 +294,10 @@ function AutomatedForm({ data, automations, patch }: { data: AutomatedNodeData; 
       </Field>
       {selectedAction && selectedAction.params.length > 0 && (
         <div className="space-y-2">
-          <label className="text-xs font-medium text-gray-600">Action Parameters</label>
+          <label className="text-xs font-medium text-slate-600">Action Parameters</label>
           {selectedAction.params.map(param => (
             <div key={param}>
-              <label className="text-xs text-gray-500 capitalize block mb-0.5">{param}</label>
+              <label className="mb-0.5 block text-xs capitalize text-slate-500">{param}</label>
               <input
                 className={inputClass}
                 value={data.actionParams[param] ?? ''}
@@ -315,16 +317,16 @@ function EndForm({ data, patch }: { data: EndNodeData; patch: (p: Partial<EndNod
   return (
     <>
       <Field label="End Message">
-        <input className={inputClass} value={data.endMessage} onChange={e => patch({ endMessage: e.target.value })} placeholder="e.g. Onboarding Complete" />
+        <input className={inputClass} value={data.endMessage} onChange={e => patch({ endMessage: e.target.value })} placeholder="e.g. Offer Workflow Closed" />
       </Field>
-      <div className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+      <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
         <div>
-          <p className="text-sm font-medium text-gray-700">Summary Flag</p>
-          <p className="text-xs text-gray-400">Generate a summary report on completion</p>
+          <p className="text-sm font-medium text-slate-700">Summary Flag</p>
+          <p className="text-xs text-slate-400">Generate a summary report on completion</p>
         </div>
         <button
           onClick={() => patch({ summaryFlag: !data.summaryFlag })}
-          className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors flex-shrink-0 ${data.summaryFlag ? 'bg-blue-600' : 'bg-gray-300'}`}
+          className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full transition-colors ${data.summaryFlag ? 'bg-indigo-600' : 'bg-slate-300'}`}
         >
           <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${data.summaryFlag ? 'translate-x-4' : 'translate-x-0.5'}`} />
         </button>

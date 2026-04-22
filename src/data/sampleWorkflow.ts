@@ -1,7 +1,7 @@
 import type { WorkflowNode, WorkflowEdge } from '../types/workflow';
 
 /**
- * Sample workflow: Employee Onboarding Process
+ * Sample workflow: Candidate Offer Approval
  * Demonstrates complete workflow structure with multiple node types and branching logic.
  */
 export const sampleNodes: WorkflowNode[] = [
@@ -11,8 +11,11 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 60, y: 200 },
     data: {
       kind: 'start',
-      title: 'Employee Onboarding',
-      metadata: [],
+      title: 'Candidate Offer Approval',
+      metadata: [
+        { id: 'kv_start_1', key: 'department', value: 'Talent Acquisition' },
+        { id: 'kv_start_2', key: 'requestType', value: 'New Hire Offer' },
+      ],
     },
   },
   {
@@ -21,11 +24,14 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 260, y: 200 },
     data: {
       kind: 'task',
-      title: 'Collect Documents',
-      description: 'Collect employee identity and onboarding documents',
-      assignee: 'HR Executive',
+      title: 'Draft Offer Package',
+      description: 'Prepare compensation, joining date, and approval notes for the candidate.',
+      assignee: 'Recruiter',
       dueDate: '',
-      customFields: [],
+      customFields: [
+        { id: 'kv_task_1', key: 'candidateLevel', value: 'SDE-1' },
+        { id: 'kv_task_2', key: 'location', value: 'Bangalore' },
+      ],
     },
   },
   {
@@ -34,9 +40,9 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 480, y: 200 },
     data: {
       kind: 'approval',
-      title: 'Manager Approval',
-      approverRole: 'Manager',
-      autoApproveThreshold: 24,
+      title: 'Compensation Approval',
+      approverRole: 'HRBP',
+      autoApproveThreshold: 12,
       decisionMode: 'approved_rejected',
     },
   },
@@ -46,11 +52,11 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 760, y: 120 },
     data: {
       kind: 'automated',
-      title: 'Send Welcome Email',
-      actionId: 'send_email',
+      title: 'Generate Offer Letter',
+      actionId: 'generate_doc',
       actionParams: {
-        to: 'new.employee@company.com',
-        subject: 'Welcome to the team!',
+        template: 'offer_letter_v2',
+        recipient: 'candidate@company.com',
       },
     },
   },
@@ -60,9 +66,9 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 760, y: 300 },
     data: {
       kind: 'task',
-      title: 'Rework Documents',
-      description: 'Fix missing or incorrect documents and resubmit',
-      assignee: 'HR Executive',
+      title: 'Revise Compensation Package',
+      description: 'Update compensation details, capture feedback, and resubmit for approval.',
+      assignee: 'Recruiter',
       dueDate: '',
       customFields: [],
     },
@@ -73,7 +79,7 @@ export const sampleNodes: WorkflowNode[] = [
     position: { x: 1040, y: 200 },
     data: {
       kind: 'end',
-      endMessage: 'Process Complete',
+      endMessage: 'Offer Workflow Closed',
       summaryFlag: true,
     },
   },

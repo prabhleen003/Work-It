@@ -6,7 +6,7 @@ import type { WorkflowNode, WorkflowEdge, WorkflowJSON } from '../types/workflow
 export function serializeWorkflow(
   nodes: WorkflowNode[],
   edges: WorkflowEdge[],
-  name = 'Onboarding Workflow'
+  name = 'Offer Approval Workflow'
 ): WorkflowJSON {
   return {
     id: `wf_${Date.now()}`,

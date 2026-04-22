@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-100 text-slate-900 antialiased;
+  }
+}
+
+@layer components {
+  .react-flow__controls {
+    @apply overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm;
+  }
+
+  .react-flow__controls-button {
+    @apply !h-9 !w-9 !border-slate-200 !bg-white !text-slate-600 transition-colors;
+  }
+
+  .react-flow__controls-button:hover {
+    @apply !bg-slate-50 !text-slate-900;
+  }
+
+  .react-flow__minimap {
+    @apply overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm;
+  }
+
+  .react-flow__edge.workflow-edge .react-flow__edge-path {
+    filter: drop-shadow(0 0 3px rgba(91, 110, 225, 0.16));
+    transition: stroke 160ms ease, stroke-width 160ms ease, filter 160ms ease;
+  }
+
+  .react-flow__edge.workflow-edge .react-flow__edge-text {
+    fill: #475569;
+  }
+
+  .react-flow__edge.workflow-edge .react-flow__edge-textbg {
+    fill: rgba(255, 255, 255, 0.92);
+  }
+
+  .react-flow__edge.selected.workflow-edge .react-flow__edge-path,
+  .react-flow__edge.workflow-edge:hover .react-flow__edge-path {
+    filter: drop-shadow(0 0 6px rgba(91, 110, 225, 0.24));
+    stroke: #4f46e5;
+    stroke-width: 2;
+  }
+
+  .react-flow__connection-path {
+    filter: drop-shadow(0 0 4px rgba(91, 110, 225, 0.18));
+  }
+}

@@ -1,8 +1,9 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import ReactFlow, {
   Background,
   Controls,
   MiniMap,
+  MarkerType,
   addEdge,
   useReactFlow,
   BackgroundVariant,
@@ -62,6 +63,26 @@ export default function WorkflowCanvas({
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { screenToFlowPosition } = useReactFlow();
 
+  const styledEdges = useMemo(
+    () =>
+      edges.map((edge) => ({
+        ...edge,
+        className: edge.className ? `${edge.className} workflow-edge` : 'workflow-edge',
+        style: {
+          stroke: '#5b6ee1',
+          strokeWidth: 1.7,
+          ...(edge.style ?? {}),
+        },
+        markerEnd: edge.markerEnd ?? {
+          type: MarkerType.ArrowClosed,
+          width: 16,
+          height: 16,
+          color: '#5b6ee1',
+        },
+      })),
+    [edges]
+  );
+
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
@@ -111,14 +132,14 @@ export default function WorkflowCanvas({
   return (
     <div
       ref={reactFlowWrapper}
-      className="flex-1 h-full"
+      className="h-full flex-1 bg-slate-100"
       onKeyDown={handleKeyDown}
       tabIndex={0}
       style={{ outline: 'none' }}
     >
       <ReactFlow
         nodes={nodes}
-        edges={edges}
+        edges={styledEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={handleConnect}
@@ -127,26 +148,50 @@ export default function WorkflowCanvas({
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         nodeTypes={nodeTypes}
+        defaultEdgeOptions={{
+          className: 'workflow-edge',
+          type: 'smoothstep',
+          animated: false,
+          style: {
+            stroke: '#5b6ee1',
+            strokeWidth: 1.7,
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 16,
+            height: 16,
+            color: '#5b6ee1',
+          },
+        }}
+        connectionLineStyle={{
+          stroke: '#5b6ee1',
+          strokeWidth: 1.7,
+        }}
         fitView
         fitViewOptions={{ padding: 0.2 }}
         deleteKeyCode={['Delete', 'Backspace']}
-        className="bg-slate-50"
+        className="bg-[#f6f7fb]"
         proOptions={{ hideAttribution: true }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#d1d5db" />
-        <Controls className="!shadow-md" />
+        <Background
+          variant={BackgroundVariant.Lines}
+          gap={28}
+          size={0.8}
+          color="#e8ecf3"
+        />
+        <Controls className="!shadow-none" />
         <MiniMap
           nodeColor={(n) => {
             switch (n.type) {
-              case 'start': return '#22c55e';
-              case 'task': return '#3b82f6';
-              case 'approval': return '#f59e0b';
-              case 'automated': return '#14b8a6';
-              case 'end': return '#ef4444';
+              case 'start': return '#5f8a68';
+              case 'task': return '#4f46e5';
+              case 'approval': return '#b7791f';
+              case 'automated': return '#0f766e';
+              case 'end': return '#b45363';
               default: return '#94a3b8';
             }
           }}
-          className="!shadow-md !rounded-lg"
+          className="!rounded-lg !shadow-none"
         />
       </ReactFlow>
     </div>

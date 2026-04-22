@@ -39,12 +39,12 @@ describe('simulate', () => {
         expect.objectContaining({
           nodeId: 'n3',
           status: 'approved',
-          detail: 'Auto-approved after 24 hours',
+          detail: 'Auto-approved after 12 hours',
         }),
       ])
     );
-    expect(labels).toContain('Automated: Send Welcome Email');
-    expect(labels).not.toContain('Task: Rework Documents');
+    expect(labels).toContain('Automated: Generate Offer Letter');
+    expect(labels).not.toContain('Task: Revise Compensation Package');
   });
 
   it('returns a failed result when no start node exists', async () => {

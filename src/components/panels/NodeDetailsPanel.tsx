@@ -17,11 +17,11 @@ interface Props {
 
 // Metadata for node type display (icon, label, color coding)
 const KIND_META = {
-  start:     { label: 'Start Node', icon: <Play size={14} className="fill-emerald-700 text-emerald-700" />, color: 'text-emerald-700', badge: 'border-emerald-100 bg-emerald-50' },
-  task:      { label: 'Task Node', icon: <ClipboardList size={14} className="text-indigo-700" />, color: 'text-indigo-700', badge: 'border-indigo-100 bg-indigo-50' },
-  approval:  { label: 'Approval Node', icon: <UserCheck size={14} className="text-amber-700" />, color: 'text-amber-700', badge: 'border-amber-100 bg-amber-50' },
-  automated: { label: 'Automated Step', icon: <Zap size={14} className="fill-teal-700 text-teal-700" />, color: 'text-teal-700', badge: 'border-teal-100 bg-teal-50' },
-  end:       { label: 'End Node', icon: <StopCircle size={14} className="text-rose-700" />, color: 'text-rose-700', badge: 'border-rose-100 bg-rose-50' },
+  start:     { label: 'Start Node', icon: <Play size={14} className="fill-emerald-700 text-emerald-700 dark:fill-emerald-300 dark:text-emerald-300" />, color: 'text-emerald-700 dark:text-emerald-300', badge: 'border-emerald-100 bg-emerald-50 dark:border-emerald-900/60 dark:bg-emerald-950/45' },
+  task:      { label: 'Task Node', icon: <ClipboardList size={14} className="text-indigo-700 dark:text-indigo-300" />, color: 'text-indigo-700 dark:text-indigo-300', badge: 'border-indigo-100 bg-indigo-50 dark:border-indigo-900/60 dark:bg-indigo-950/45' },
+  approval:  { label: 'Approval Node', icon: <UserCheck size={14} className="text-amber-700 dark:text-amber-300" />, color: 'text-amber-700 dark:text-amber-300', badge: 'border-amber-100 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/45' },
+  automated: { label: 'Automated Step', icon: <Zap size={14} className="fill-teal-700 text-teal-700 dark:fill-teal-300 dark:text-teal-300" />, color: 'text-teal-700 dark:text-teal-300', badge: 'border-teal-100 bg-teal-50 dark:border-teal-900/60 dark:bg-teal-950/45' },
+  end:       { label: 'End Node', icon: <StopCircle size={14} className="text-rose-700 dark:text-rose-300" />, color: 'text-rose-700 dark:text-rose-300', badge: 'border-rose-100 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/45' },
 };
 
 function newKV(): KVPair {
@@ -35,16 +35,16 @@ function newKV(): KVPair {
 export default function NodeDetailsPanel({ node, automations, onUpdate, onDelete, onClose }: Props) {
   if (!node) {
     return (
-      <aside className="flex w-80 flex-col border-l border-slate-200 bg-white">
-        <div className="flex items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-4">
-          <h2 className="text-sm font-semibold text-slate-700">Node Details</h2>
+      <aside className="flex w-80 flex-col border-l border-slate-200 bg-white transition-colors dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-4 transition-colors dark:border-slate-800 dark:bg-slate-900">
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Node Details</h2>
         </div>
-        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center text-slate-400">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-slate-50">
-            <ClipboardList size={22} className="text-slate-300" />
+        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center text-slate-400 dark:text-slate-500">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
+            <ClipboardList size={22} className="text-slate-300 dark:text-slate-500" />
           </div>
-          <p className="mb-1 text-sm font-medium text-slate-500">No node selected</p>
-          <p className="text-xs text-slate-400">Click any node on the canvas to edit its properties</p>
+          <p className="mb-1 text-sm font-medium text-slate-500 dark:text-slate-300">No node selected</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500">Click any node on the canvas to edit its properties</p>
         </div>
       </aside>
     );
@@ -53,15 +53,15 @@ export default function NodeDetailsPanel({ node, automations, onUpdate, onDelete
   const meta = KIND_META[node.data.kind];
 
   return (
-    <aside className="flex w-80 flex-col overflow-hidden border-l border-slate-200 bg-white">
-      <div className="flex flex-shrink-0 items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-3.5">
+    <aside className="flex w-80 flex-col overflow-hidden border-l border-slate-200 bg-white transition-colors dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex flex-shrink-0 items-center justify-between border-b border-slate-100 bg-[#fbfbfc] px-4 py-3.5 transition-colors dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-center gap-2">
           <div className={`flex h-8 w-8 items-center justify-center rounded-lg border ${meta.badge}`}>
             {meta.icon}
           </div>
           <h2 className={`text-sm font-semibold ${meta.color}`}>{meta.label}</h2>
         </div>
-        <button onClick={onClose} className="rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600">
+        <button onClick={onClose} className="rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-200">
           <X size={15} />
         </button>
       </div>
@@ -73,7 +73,7 @@ export default function NodeDetailsPanel({ node, automations, onUpdate, onDelete
       <div className="flex-shrink-0 px-4 pb-4">
         <button
           onClick={() => onDelete(node.id)}
-          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-rose-200 py-2 text-sm font-medium text-rose-700 shadow-sm transition-colors hover:bg-rose-50"
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-rose-200 py-2 text-sm font-medium text-rose-700 shadow-sm transition-colors hover:bg-rose-50 dark:border-rose-900/70 dark:text-rose-300 dark:hover:bg-rose-950/40"
         >
           <Trash2 size={14} />
           Delete Node
@@ -109,15 +109,15 @@ function NodeForm({ node, automations, onUpdate }: Omit<Props, 'onClose' | 'onDe
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="space-y-1">
-      <label className="text-xs font-medium text-slate-600">
-        {label} {required && <span className="text-rose-500">*</span>}
+      <label className="text-xs font-medium text-slate-600 dark:text-slate-300">
+        {label} {required && <span className="text-rose-500 dark:text-rose-400">*</span>}
       </label>
       {children}
     </div>
   );
 }
 
-const inputClass = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 transition-shadow focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500';
+const inputClass = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 transition-shadow focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500';
 const textareaClass = `${inputClass} resize-none`;
 
 // ---- Start Form ----
@@ -135,8 +135,8 @@ function StartForm({ data, patch }: { data: StartNodeData; patch: (p: Partial<St
       </Field>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-slate-600">Metadata</label>
-          <button onClick={addMeta} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700">
+          <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Metadata</label>
+          <button onClick={addMeta} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200">
             <Plus size={11} /> Add
           </button>
         </div>
@@ -144,13 +144,13 @@ function StartForm({ data, patch }: { data: StartNodeData; patch: (p: Partial<St
           <div key={m.id} className="flex gap-1.5 items-center">
             <input className={`${inputClass} flex-1`} value={m.key} onChange={e => updateMeta(m.id, 'key', e.target.value)} placeholder="Key" />
             <input className={`${inputClass} flex-1`} value={m.value} onChange={e => updateMeta(m.id, 'value', e.target.value)} placeholder="Value" />
-            <button onClick={() => removeMeta(m.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500">
+            <button onClick={() => removeMeta(m.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300">
               <X size={13} />
             </button>
           </div>
         ))}
         {data.metadata.length === 0 && (
-          <p className="text-xs italic text-slate-400">No metadata fields</p>
+          <p className="text-xs italic text-slate-400 dark:text-slate-500">No metadata fields</p>
         )}
       </div>
     </>
@@ -181,8 +181,8 @@ function TaskForm({ data, patch }: { data: TaskNodeData; patch: (p: Partial<Task
       </Field>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-slate-600">Custom Fields</label>
-          <button onClick={addField} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700">
+          <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Custom Fields</label>
+          <button onClick={addField} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200">
             <Plus size={11} /> Add Field
           </button>
         </div>
@@ -190,7 +190,7 @@ function TaskForm({ data, patch }: { data: TaskNodeData; patch: (p: Partial<Task
           <div key={f.id} className="flex gap-1.5 items-center">
             <input className={`${inputClass} flex-1`} value={f.key} onChange={e => updateField(f.id, 'key', e.target.value)} placeholder="Key" />
             <input className={`${inputClass} flex-1`} value={f.value} onChange={e => updateField(f.id, 'value', e.target.value)} placeholder="Value" />
-            <button onClick={() => removeField(f.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500">
+            <button onClick={() => removeField(f.id)} className="flex-shrink-0 p-1 text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-300">
               <X size={13} />
             </button>
           </div>
@@ -239,7 +239,7 @@ function ApprovalForm({ data, patch }: { data: ApprovalNodeData; patch: (p: Part
           onChange={e => patch({ autoApproveThreshold: Number(e.target.value) })}
           placeholder="0 = disabled"
         />
-        <p className="mt-0.5 text-xs text-slate-400">
+        <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">
           Automatically approve after this many pending hours. 0 = disabled.
         </p>
       </Field>
@@ -258,7 +258,7 @@ function ApprovalForm({ data, patch }: { data: ApprovalNodeData; patch: (p: Part
       </Field>
 
       {data.decisionMode === 'approved_rejected' && (
-        <p className="text-xs text-indigo-600">
+        <p className="text-xs text-indigo-600 dark:text-indigo-300">
           This node will create two paths: Approved and Rejected
         </p>
       )}
@@ -294,10 +294,10 @@ function AutomatedForm({ data, automations, patch }: { data: AutomatedNodeData; 
       </Field>
       {selectedAction && selectedAction.params.length > 0 && (
         <div className="space-y-2">
-          <label className="text-xs font-medium text-slate-600">Action Parameters</label>
+          <label className="text-xs font-medium text-slate-600 dark:text-slate-300">Action Parameters</label>
           {selectedAction.params.map(param => (
             <div key={param}>
-              <label className="mb-0.5 block text-xs capitalize text-slate-500">{param}</label>
+              <label className="mb-0.5 block text-xs capitalize text-slate-500 dark:text-slate-400">{param}</label>
               <input
                 className={inputClass}
                 value={data.actionParams[param] ?? ''}
@@ -319,16 +319,16 @@ function EndForm({ data, patch }: { data: EndNodeData; patch: (p: Partial<EndNod
       <Field label="End Message">
         <input className={inputClass} value={data.endMessage} onChange={e => patch({ endMessage: e.target.value })} placeholder="e.g. Offer Workflow Closed" />
       </Field>
-      <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+      <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/80">
         <div>
-          <p className="text-sm font-medium text-slate-700">Summary Flag</p>
-          <p className="text-xs text-slate-400">Generate a summary report on completion</p>
+          <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Summary Flag</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500">Generate a summary report on completion</p>
         </div>
         <button
           onClick={() => patch({ summaryFlag: !data.summaryFlag })}
-          className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full transition-colors ${data.summaryFlag ? 'bg-indigo-600' : 'bg-slate-300'}`}
+          className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full transition-colors ${data.summaryFlag ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-slate-300 dark:bg-slate-600'}`}
         >
-          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${data.summaryFlag ? 'translate-x-4' : 'translate-x-0.5'}`} />
+          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm dark:bg-slate-200 ${data.summaryFlag ? 'translate-x-4' : 'translate-x-0.5'}`} />
         </button>
       </div>
     </>

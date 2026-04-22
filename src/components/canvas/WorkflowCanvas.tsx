@@ -42,6 +42,7 @@ function nextId() {
 interface WorkflowCanvasProps {
   nodes: WorkflowNode[];
   edges: WorkflowEdge[];
+  theme: 'light' | 'dark';
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onNodeClick: (node: WorkflowNode) => void;
@@ -53,6 +54,7 @@ interface WorkflowCanvasProps {
 export default function WorkflowCanvas({
   nodes,
   edges,
+  theme,
   onNodesChange,
   onEdgesChange,
   onNodeClick,
@@ -62,6 +64,8 @@ export default function WorkflowCanvas({
 }: WorkflowCanvasProps) {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { screenToFlowPosition } = useReactFlow();
+  const edgeColor = theme === 'dark' ? '#8190ff' : '#5b6ee1';
+  const gridColor = theme === 'dark' ? '#1f2a3d' : '#e8ecf3';
 
   const styledEdges = useMemo(
     () =>
@@ -69,7 +73,7 @@ export default function WorkflowCanvas({
         ...edge,
         className: edge.className ? `${edge.className} workflow-edge` : 'workflow-edge',
         style: {
-          stroke: '#5b6ee1',
+          stroke: edgeColor,
           strokeWidth: 1.7,
           ...(edge.style ?? {}),
         },
@@ -77,10 +81,10 @@ export default function WorkflowCanvas({
           type: MarkerType.ArrowClosed,
           width: 16,
           height: 16,
-          color: '#5b6ee1',
+          color: edgeColor,
         },
       })),
-    [edges]
+    [edgeColor, edges]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -132,7 +136,7 @@ export default function WorkflowCanvas({
   return (
     <div
       ref={reactFlowWrapper}
-      className="h-full flex-1 bg-slate-100"
+      className="h-full flex-1 bg-slate-100 transition-colors dark:bg-slate-950"
       onKeyDown={handleKeyDown}
       tabIndex={0}
       style={{ outline: 'none' }}
@@ -153,31 +157,31 @@ export default function WorkflowCanvas({
           type: 'smoothstep',
           animated: false,
           style: {
-            stroke: '#5b6ee1',
+            stroke: edgeColor,
             strokeWidth: 1.7,
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
             width: 16,
             height: 16,
-            color: '#5b6ee1',
+            color: edgeColor,
           },
         }}
         connectionLineStyle={{
-          stroke: '#5b6ee1',
+          stroke: edgeColor,
           strokeWidth: 1.7,
         }}
         fitView
         fitViewOptions={{ padding: 0.2 }}
         deleteKeyCode={['Delete', 'Backspace']}
-        className="bg-[#f6f7fb]"
+        className={theme === 'dark' ? 'bg-slate-950' : 'bg-[#f6f7fb]'}
         proOptions={{ hideAttribution: true }}
       >
         <Background
           variant={BackgroundVariant.Lines}
           gap={28}
           size={0.8}
-          color="#e8ecf3"
+          color={gridColor}
         />
         <Controls className="!shadow-none" />
         <MiniMap

@@ -21,16 +21,36 @@ import type {
 } from './types/workflow';
 
 const INITIAL_VALIDATION = validateWorkflow(sampleNodes as WorkflowNode[], sampleEdges);
+const THEME_STORAGE_KEY = 'workit-theme';
+
+type Theme = 'light' | 'dark';
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error && error.message ? error.message : fallback;
+}
+
+function getInitialTheme(): Theme {
+  if (typeof window === 'undefined') return 'light';
+
+  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme;
+  }
+
+  return 'light';
 }
 
 /**
  * Main workflow orchestration component.
  * Manages workflow graph state (nodes/edges), user interactions, validation, and simulation execution.
  */
-function WorkflowApp() {
+function WorkflowApp({
+  theme,
+  onToggleTheme,
+}: {
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
   // ReactFlow managed state for graph nodes and edges
   const [nodes, setNodes, onNodesChange] = useNodesState<WorkflowNodeData>(sampleNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(sampleEdges);
@@ -177,11 +197,13 @@ function WorkflowApp() {
   );
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-slate-100">
+    <div className="flex h-screen flex-col overflow-hidden bg-slate-100 transition-colors dark:bg-slate-950">
       <Header
         onValidate={handleValidate}
         onTest={handleTest}
         isTesting={isSimulating}
+        theme={theme}
+        onToggleTheme={onToggleTheme}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -192,6 +214,7 @@ function WorkflowApp() {
             <WorkflowCanvas
               nodes={nodes as WorkflowNode[]}
               edges={edges}
+              theme={theme}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onNodeClick={handleNodeClick}
@@ -225,9 +248,20 @@ function WorkflowApp() {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
   return (
     <ReactFlowProvider>
-      <WorkflowApp />
+      <WorkflowApp
+        theme={theme}
+        onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}
+      />
     </ReactFlowProvider>
   );
 }

@@ -33,3 +33,6 @@ coverage/
 *.njsproj
 *.sln
 *.sw?
+
+# Template configuration files
+configure/config.json

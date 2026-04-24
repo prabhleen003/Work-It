@@ -22,12 +22,16 @@
 ![React Flow](https://img.shields.io/badge/React_Flow-FF0072?style=for-the-badge&logo=react&logoColor=white)
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
 
+
+![Demo](demo.png)
+
 <br/>
 
 > **Drag. Connect. Validate. Simulate.**  
 > A full-featured canvas for designing internal HR workflows — onboarding, leave approvals, document verification — with real-time validation and a step-by-step execution sandbox.
 
 <br/>
+
 
 </div>
 

@@ -23,7 +23,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
 
 
-![Demo](demo.png)
+
 
 <br/>
 
@@ -34,6 +34,8 @@
 
 
 </div>
+
+<img src="Demo.png" >
 
 ---
 
